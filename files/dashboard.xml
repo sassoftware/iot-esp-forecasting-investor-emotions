@@ -1,0 +1,211 @@
+<rows continue-on-error='false'>
+   <insert table='streamviewer_server'>
+      <values>
+         <value column='id'>-1326477057</value>
+         <value column='name'>bitcoin</value>
+         <value column='host'>esps-bitcoin</value>
+         <value column='port'>443</value>
+         <value column='secure'>1</value>
+         <value column='stats_interval'>1</value>
+         <value column='cpu_percentage'>5</value>
+         <value column='type'>KUBERNETES</value>
+      </values>
+   </insert>
+   <insert table='streamviewer_dashboard'>
+      <values>
+         <value column='id'>486a38ba-d68a-4911-add9-76eabeb3d46c</value>
+         <value column='name'>New Dashboard</value>
+         <value column='creation_time'>1632839570148</value>
+         <value column='description'/>
+         <value column='graph_skin'>crisp</value>
+         <value column='kpi_skin'>basic</value>
+         <value column='properties'/>
+         <value column='key_separator'>.</value>
+      </values>
+   </insert>
+   <insert table='streamviewer_subscriber'>
+      <values>
+         <value column='id'>492dec4d-2e30-4b03-9942-439e36264fea</value>
+         <value column='name'>lastInGroup</value>
+         <value column='p'>bitcoin</value>
+         <value column='cq'>cq</value>
+         <value column='w'>lastInGroup</value>
+         <value column='subscriber_mode'>streaming</value>
+         <value column='pagesize'>50</value>
+         <value column='delivery_interval'>1000</value>
+         <value column='filter'/>
+         <value column='sort_field'/>
+         <value column='direction'/>
+         <value column='server_id'>-1326477057</value>
+         <value column='dashboard_id'>486a38ba-d68a-4911-add9-76eabeb3d46c</value>
+      </values>
+   </insert>
+   <insert table='streamviewer_subscriber'>
+      <values>
+         <value column='id'>ac5805ca-a559-45f3-9162-9e57d087c859</value>
+         <value column='name'>bullishEngulfing</value>
+         <value column='p'>bitcoin</value>
+         <value column='cq'>cq</value>
+         <value column='w'>bullishEngulfing</value>
+         <value column='subscriber_mode'>streaming</value>
+         <value column='pagesize'>50</value>
+         <value column='delivery_interval'>1000</value>
+         <value column='filter'/>
+         <value column='sort_field'/>
+         <value column='direction'/>
+         <value column='server_id'>-1326477057</value>
+         <value column='dashboard_id'>486a38ba-d68a-4911-add9-76eabeb3d46c</value>
+      </values>
+   </insert>
+   <insert table='streamviewer_subscriber'>
+      <values>
+         <value column='id'>ea16813d-2437-4f81-a991-57aaf5a058e7</value>
+         <value column='name'>engulfingBearish</value>
+         <value column='p'>bitcoin</value>
+         <value column='cq'>cq</value>
+         <value column='w'>engulfingBearish</value>
+         <value column='subscriber_mode'>streaming</value>
+         <value column='pagesize'>50</value>
+         <value column='delivery_interval'>1000</value>
+         <value column='filter'/>
+         <value column='sort_field'/>
+         <value column='direction'/>
+         <value column='server_id'>-1326477057</value>
+         <value column='dashboard_id'>486a38ba-d68a-4911-add9-76eabeb3d46c</value>
+      </values>
+   </insert>
+   <insert table='streamviewer_subscriber'>
+      <values>
+         <value column='id'>e6174c6d-32c8-461a-aaa1-3b7b7a7cfd14</value>
+         <value column='name'>threeBlackCrows</value>
+         <value column='p'>bitcoin</value>
+         <value column='cq'>cq</value>
+         <value column='w'>threeBlackCrows</value>
+         <value column='subscriber_mode'>streaming</value>
+         <value column='pagesize'>50</value>
+         <value column='delivery_interval'>1000</value>
+         <value column='filter'/>
+         <value column='sort_field'/>
+         <value column='direction'/>
+         <value column='server_id'>-1326477057</value>
+         <value column='dashboard_id'>486a38ba-d68a-4911-add9-76eabeb3d46c</value>
+      </values>
+   </insert>
+   <insert table='streamviewer_subscriber'>
+      <values>
+         <value column='id'>1e63ad98-d421-41d3-8bc7-0d31ad13c828</value>
+         <value column='name'>threeInsideUp</value>
+         <value column='p'>bitcoin</value>
+         <value column='cq'>cq</value>
+         <value column='w'>threeInsideUp</value>
+         <value column='subscriber_mode'>streaming</value>
+         <value column='pagesize'>50</value>
+         <value column='delivery_interval'>1000</value>
+         <value column='filter'/>
+         <value column='sort_field'/>
+         <value column='direction'/>
+         <value column='server_id'>-1326477057</value>
+         <value column='dashboard_id'>486a38ba-d68a-4911-add9-76eabeb3d46c</value>
+      </values>
+   </insert>
+   <insert table='streamviewer_chart'>
+      <values>
+         <value column='id'>ba196856-da97-41fa-a365-fc105b545112</value>
+         <value column='name'>lastInGroup</value>
+         <value column='win'>bitcoin/cq/lastInGroup</value>
+         <value column='event_mode'>streaming</value>
+         <value column='visual'>line</value>
+         <value column='fields'>_counter,close</value>
+         <value column='options'>showLegend=true,lineCurved=false,lineWidth=2,fill=false,xAxisTitle=true,yAxisTitle=false,ymin=44000,ymax=50000,xRefLine=,yRefLine=,orientation=horizontal,title=lastInGroup</value>
+         <value column='hyperlink'/>
+         <value column='x'>-1</value>
+         <value column='y'>10</value>
+         <value column='width'>1884</value>
+         <value column='height'>381</value>
+         <value column='snapshot'>0</value>
+         <value column='server_id'>-1326477057</value>
+         <value column='subscriber_id'>492dec4d-2e30-4b03-9942-439e36264fea</value>
+         <value column='dashboard_id'>486a38ba-d68a-4911-add9-76eabeb3d46c</value>
+      </values>
+   </insert>
+   <insert table='streamviewer_chart'>
+      <values>
+         <value column='id'>4727a5e6-5b36-4849-b74b-ef819b6490ef</value>
+         <value column='name'>threeBlackCrows</value>
+         <value column='win'>bitcoin/cq/threeBlackCrows</value>
+         <value column='event_mode'>streaming</value>
+         <value column='visual'>vbar</value>
+         <value column='fields'>_counter,close2,close3,close4</value>
+         <value column='options'>showLegend=true,isStacked=false,dataLabel=,xAxisTitle=true,yAxisTitle=false,ymin=44000,ymax=50000,orientation=horizontal</value>
+         <value column='hyperlink'/>
+         <value column='x'>904</value>
+         <value column='y'>401</value>
+         <value column='width'>464</value>
+         <value column='height'>415</value>
+         <value column='snapshot'>0</value>
+         <value column='server_id'>-1326477057</value>
+         <value column='subscriber_id'>e6174c6d-32c8-461a-aaa1-3b7b7a7cfd14</value>
+         <value column='dashboard_id'>486a38ba-d68a-4911-add9-76eabeb3d46c</value>
+      </values>
+   </insert>
+   <insert table='streamviewer_chart'>
+      <values>
+         <value column='id'>ae850bec-bb92-420c-a00a-698d8029c92e</value>
+         <value column='name'>threeInsideUp</value>
+         <value column='win'>bitcoin/cq/threeInsideUp</value>
+         <value column='event_mode'>streaming</value>
+         <value column='visual'>vbar</value>
+         <value column='fields'>_counter,open1,close1,open2,close2,close3</value>
+         <value column='options'>showLegend=true,isStacked=false,dataLabel=,xAxisTitle=true,yAxisTitle=false,ymin=44000,ymax=50000,orientation=horizontal</value>
+         <value column='hyperlink'/>
+         <value column='x'>1375</value>
+         <value column='y'>401</value>
+         <value column='width'>472</value>
+         <value column='height'>410</value>
+         <value column='snapshot'>0</value>
+         <value column='server_id'>-1326477057</value>
+         <value column='subscriber_id'>1e63ad98-d421-41d3-8bc7-0d31ad13c828</value>
+         <value column='dashboard_id'>486a38ba-d68a-4911-add9-76eabeb3d46c</value>
+      </values>
+   </insert>
+   <insert table='streamviewer_chart'>
+      <values>
+         <value column='id'>5f6343b5-2da5-4b81-b7ec-6168c0d57ff9</value>
+         <value column='name'>bullishEngulfing</value>
+         <value column='win'>bitcoin/cq/bullishEngulfing</value>
+         <value column='event_mode'>streaming</value>
+         <value column='visual'>vbar</value>
+         <value column='fields'>_counter,open2,close2,open3,close3</value>
+         <value column='options'>showLegend=true,isStacked=false,dataLabel=,xAxisTitle=true,yAxisTitle=false,ymin=44000,ymax=50000,orientation=horizontal</value>
+         <value column='hyperlink'/>
+         <value column='x'>-1</value>
+         <value column='y'>401</value>
+         <value column='width'>420</value>
+         <value column='height'>418</value>
+         <value column='snapshot'>0</value>
+         <value column='server_id'>-1326477057</value>
+         <value column='subscriber_id'>ac5805ca-a559-45f3-9162-9e57d087c859</value>
+         <value column='dashboard_id'>486a38ba-d68a-4911-add9-76eabeb3d46c</value>
+      </values>
+   </insert>
+   <insert table='streamviewer_chart'>
+      <values>
+         <value column='id'>ae45182e-c401-49ae-9cba-c2f578ba9b20</value>
+         <value column='name'>engulfingBearish</value>
+         <value column='win'>bitcoin/cq/engulfingBearish</value>
+         <value column='event_mode'>streaming</value>
+         <value column='visual'>vbar</value>
+         <value column='fields'>_counter,open2,close2,open3,close3</value>
+         <value column='options'>showLegend=true,isStacked=false,dataLabel=,xAxisTitle=true,yAxisTitle=false,ymin=44000,ymax=50000,orientation=horizontal</value>
+         <value column='hyperlink'/>
+         <value column='x'>427</value>
+         <value column='y'>401</value>
+         <value column='width'>468</value>
+         <value column='height'>417</value>
+         <value column='snapshot'>0</value>
+         <value column='server_id'>-1326477057</value>
+         <value column='subscriber_id'>ea16813d-2437-4f81-a991-57aaf5a058e7</value>
+         <value column='dashboard_id'>486a38ba-d68a-4911-add9-76eabeb3d46c</value>
+      </values>
+   </insert>
+</rows>

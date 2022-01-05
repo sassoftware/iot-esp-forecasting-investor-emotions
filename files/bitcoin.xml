@@ -1,0 +1,267 @@
+<project name="bitcoin" threads="4" pubsub="auto" heartbeat-interval="1">
+  <metadata>
+    <meta id="studioUploadedBy">sasdemo</meta>
+    <meta id="studioUploaded">1629293850754</meta>
+    <meta id="studioModifiedBy">sasdemo</meta>
+    <meta id="studioModified">1632921877484</meta>
+    <meta id="layout">{"cq":{"bpiSource":{"x":-45,"y":-30},"bullishEngulfing":{"x":-320,"y":625},"createGroups":{"x":-45,"y":85},"engulfingBearish":{"x":215,"y":615},"lastInGroup":{"x":-45,"y":345},"ohlc":{"x":-45,"y":210},"removeState":{"x":-45,"y":470},"threeBlackCrows":{"x":-150,"y":715},"threeInsideUp":{"x":75,"y":710}}}</meta>
+  </metadata>
+  <properties>
+    <property name="myPath"><![CDATA[/esp/bitcoin]]></property>
+  </properties>
+  <contqueries>
+    <contquery name="cq" trace="bpiSource">
+      <windows>
+        <window-source pubsub="true" index="pi_EMPTY" insert-only="true" autogen-key="true" name="bpiSource">
+          <schema>
+            <fields>
+              <field name="price" type="double"/>
+              <field name="id" type="string" key="true"/>
+            </fields>
+          </schema>
+          <connectors>
+            <connector class="fs" name="csv_connector" active="false">
+              <properties>
+                <property name="type"><![CDATA[pub]]></property>
+                <property name="fsname"><![CDATA[@myPath@/bpi_out5.csv]]></property>
+                <property name="fstype"><![CDATA[csv]]></property>
+                <property name="noautogenfield"><![CDATA[true]]></property>
+                <property name="rate"><![CDATA[100]]></property>
+              </properties>
+            </connector>
+            <connector class="url" name="bpiIn" active="false">
+              <properties>
+                <property name="type"><![CDATA[pub]]></property>
+                <property name="interval"><![CDATA[60]]></property>
+                <property name="configUrl"><![CDATA[file://@myPath@/config.xml]]></property>
+              </properties>
+            </connector>
+            <connector class="fs" name="csv_connector_loop">
+              <properties>
+                <property name="type"><![CDATA[pub]]></property>
+                <property name="fsname"><![CDATA[@myPath@/bpi_out5.csv]]></property>
+                <property name="fstype"><![CDATA[csv]]></property>
+                <property name="noautogenfield"><![CDATA[true]]></property>
+                <property name="rate"><![CDATA[100]]></property>
+                <property name="repeatcount"><![CDATA[100]]></property>
+              </properties>
+            </connector>
+            <connector class="fs" name="subConnector">
+              <properties>
+                <property name="type"><![CDATA[sub]]></property>
+                <property name="snapshot"><![CDATA[true]]></property>
+                <property name="dateformat"><![CDATA[%m/%d/%Y:%H:%M:%S]]></property>
+                <property name="fsname"><![CDATA[@myPath@/bpi_out.csv]]></property>
+                <property name="fstype"><![CDATA[csv]]></property>
+              </properties>
+            </connector>
+          </connectors>
+        </window-source>
+        <window-compute pubsub="true" index="pi_EMPTY" name="createGroups">
+          <expr-initialize>
+            <initializer type="int64"><![CDATA[integer p;
+
+integer s;
+
+p = 0;
+
+s = 0;]]></initializer>
+          </expr-initialize>
+          <schema>
+            <fields>
+              <field name="id" type="string" key="true"/>
+              <field name="price" type="double"/>
+              <field name="count" type="int64"/>
+              <field name="mod" type="int64"/>
+              <field name="group" type="int64"/>
+            </fields>
+          </schema>
+          <output>
+            <field-expr><![CDATA[price]]></field-expr>
+            <field-expr><![CDATA[p = p + 1; return p]]></field-expr>
+            <field-expr><![CDATA[s = p % 60; return s]]></field-expr>
+            <field-expr><![CDATA[ceil(p / 60)]]></field-expr>
+          </output>
+        </window-compute>
+        <window-aggregate pubsub="true" index="pi_HASH" name="ohlc">
+          <schema>
+            <fields>
+              <field name="group" type="int64" key="true"/>
+              <field name="mod" type="int64"/>
+              <field name="open" type="double"/>
+              <field name="high" type="double"/>
+              <field name="low" type="double"/>
+              <field name="close" type="double"/>
+            </fields>
+          </schema>
+          <output>
+            <field-expr><![CDATA[ESP_aLast(mod)]]></field-expr>
+            <field-expr><![CDATA[ESP_aFirst(price)]]></field-expr>
+            <field-expr><![CDATA[ESP_aMax(price)]]></field-expr>
+            <field-expr><![CDATA[ESP_aMin(price)]]></field-expr>
+            <field-expr><![CDATA[ESP_aLast(price)]]></field-expr>
+          </output>
+        </window-aggregate>
+        <window-filter pubsub="true" index="pi_HASH" name="lastInGroup">
+          <expression><![CDATA[mod == 59]]></expression>
+          <connectors>
+            <connector class="fs" name="ohlc_connector">
+              <properties>
+                <property name="type"><![CDATA[sub]]></property>
+                <property name="snapshot"><![CDATA[true]]></property>
+                <property name="fsname"><![CDATA[@myPath@/ohlc30.csv]]></property>
+                <property name="fstype"><![CDATA[csv]]></property>
+              </properties>
+            </connector>
+          </connectors>
+        </window-filter>
+        <window-pattern name="threeBlackCrows">
+          <schema>
+            <fields>
+              <field name="id" type="int64" key="true"/>
+              <field name="group" type="int64"/>
+              <field name="close2" type="double"/>
+              <field name="close3" type="double"/>
+              <field name="close4" type="double"/>
+              <field name="pctDiff2" type="double"/>
+              <field name="pctDiff3" type="double"/>
+              <field name="pctDiff4" type="double"/>
+            </fields>
+          </schema>
+          <patterns>
+            <pattern name="threeBlackCrows">
+              <events>
+                <event name="e1" source="removeState"><![CDATA[open < close and c1 == close]]></event>
+                <event name="e2" source="removeState"><![CDATA[c1 > close and close < open and (close/open) < .995 and c2 == close]]></event>
+                <event name="e3" source="removeState"><![CDATA[c2 > close and close < open and (close/open) < .995 and c3 == close]]></event>
+                <event name="e4" source="removeState"><![CDATA[c3 > close and close < open and (close/open) < .995]]></event>
+              </events>
+              <logic><![CDATA[fby(is(e1), is(e2), is(e3), is(e4))]]></logic>
+              <output>
+                <field-selection name="group" node="e4"/>
+                <field-selection name="close" node="e2"/>
+                <field-selection name="close" node="e3"/>
+                <field-selection name="close" node="e4"/>
+                <field-expr node="e2"><![CDATA[(abs(close - open) / ((close + open) / 2)) * 100]]></field-expr>
+                <field-expr node="e3"><![CDATA[(abs(close - open) / ((close + open) / 2)) * 100]]></field-expr>
+                <field-expr node="e4"><![CDATA[(abs(close - open) / ((close + open) / 2)) * 100]]></field-expr>
+              </output>
+            </pattern>
+          </patterns>
+        </window-pattern>
+        <window-pattern name="engulfingBearish">
+          <schema>
+            <fields>
+              <field name="id" type="int64" key="true"/>
+              <field name="group" type="int64"/>
+              <field name="open2" type="double"/>
+              <field name="close2" type="double"/>
+              <field name="open3" type="double"/>
+              <field name="close3" type="double"/>
+              <field name="pctDiff2" type="double"/>
+              <field name="pctDiff3" type="double"/>
+            </fields>
+          </schema>
+          <patterns>
+            <pattern name="engulfingBearish">
+              <events>
+                <event name="e1" source="removeState"><![CDATA[open < close]]></event>
+                <event name="e2" source="removeState"><![CDATA[open < close and (open/close) < .995 and o2 == open and c2 == close]]></event>
+                <event name="e3" source="removeState"><![CDATA[close < open and (close/open) < .995 and c2 < open and o2 > close]]></event>
+              </events>
+              <logic><![CDATA[fby(is(e1), is(e2), is(e3))]]></logic>
+              <output>
+                <field-selection name="group" node="e3"/>
+                <field-selection name="open" node="e2"/>
+                <field-selection name="close" node="e2"/>
+                <field-selection name="open" node="e3"/>
+                <field-selection name="close" node="e3"/>
+                <field-expr node="e2"><![CDATA[(abs(close - open) / ((close + open) / 2)) * 100]]></field-expr>
+                <field-expr node="e3"><![CDATA[(abs(close - open) / ((close + open) / 2)) * 100]]></field-expr>
+              </output>
+            </pattern>
+          </patterns>
+        </window-pattern>
+        <window-pattern name="bullishEngulfing">
+          <schema>
+            <fields>
+              <field name="id" type="int64" key="true"/>
+              <field name="group" type="int64"/>
+              <field name="open2" type="double"/>
+              <field name="close2" type="double"/>
+              <field name="open3" type="double"/>
+              <field name="close3" type="double"/>
+              <field name="pctDiff2" type="double"/>
+              <field name="pctDiff3" type="string"/>
+            </fields>
+          </schema>
+          <patterns>
+            <pattern name="bullishEngulfing">
+              <events>
+                <event name="e1" source="removeState"><![CDATA[close < open]]></event>
+                <event name="e2" source="removeState"><![CDATA[close < open and o == open and c == close]]></event>
+                <event name="e3" source="removeState"><![CDATA[open < close and (open/close) < .995 and c > open and o < close ]]></event>
+              </events>
+              <logic><![CDATA[fby(is(e1), is(e2),is(e3))]]></logic>
+              <output>
+                <field-selection name="group" node="e3"/>
+                <field-selection name="open" node="e2"/>
+                <field-selection name="close" node="e2"/>
+                <field-selection name="open" node="e3"/>
+                <field-selection name="close" node="e3"/>
+                <field-expr node="e2"><![CDATA[(abs(close - open) / ((close + open) / 2)) * 100]]></field-expr>
+                <field-expr node="e3"><![CDATA[(abs(close - open) / ((close + open) / 2)) * 100]]></field-expr>
+              </output>
+            </pattern>
+          </patterns>
+        </window-pattern>
+        <window-pattern name="threeInsideUp">
+          <schema>
+            <fields>
+              <field name="id" type="int64" key="true"/>
+              <field name="open1" type="double"/>
+              <field name="close1" type="double"/>
+              <field name="open2" type="double"/>
+              <field name="close2" type="double"/>
+              <field name="close3" type="double"/>
+              <field name="group" type="int64"/>
+              <field name="pctDiff1" type="double"/>
+              <field name="pctDiff2" type="double"/>
+            </fields>
+          </schema>
+          <patterns>
+            <pattern name="threeInsideUp">
+              <events>
+                <event name="e1" source="removeState"><![CDATA[close < open and (close/open) < .995 and c == close and o == open]]></event>
+                <event name="e2" source="removeState"><![CDATA[open < close and (open/close) <  .995 and c < open and o > close and c1 == close and o1 == open]]></event>
+                <event name="e3" source="removeState"><![CDATA[open < close and (open/close) <  .995 and c1 < close ]]></event>
+              </events>
+              <logic><![CDATA[fby(is(e1),is(e2),is(e3))]]></logic>
+              <output>
+                <field-selection name="open" node="e1"/>
+                <field-selection name="close" node="e1"/>
+                <field-selection name="open" node="e2"/>
+                <field-selection name="close" node="e2"/>
+                <field-selection name="close" node="e3"/>
+                <field-selection name="group" node="e3"/>
+                <field-expr node="e1"><![CDATA[(abs(close - open) / ((close + open) / 2)) * 100]]></field-expr>
+                <field-expr node="e2"><![CDATA[(abs(close - open) / ((close + open) / 2)) * 100]]></field-expr>
+              </output>
+            </pattern>
+          </patterns>
+        </window-pattern>
+        <window-remove-state remove="deletes retentionUpdates retentionDeletes updateBlockDeletes" name="removeState"/>
+      </windows>
+      <edges>
+        <edge source="bpiSource" target="createGroups"/>
+        <edge source="createGroups" target="ohlc"/>
+        <edge source="ohlc" target="lastInGroup"/>
+        <edge source="lastInGroup" target="removeState"/>
+        <edge source="removeState" target="threeBlackCrows"/>
+        <edge source="removeState" target="bullishEngulfing"/>
+        <edge source="removeState" target="engulfingBearish"/>
+        <edge source="removeState" target="threeInsideUp"/>
+      </edges>
+    </contquery>
+  </contqueries>
+</project>
