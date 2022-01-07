@@ -49,7 +49,10 @@
 
 ## Overview
 
-![](videos/bitcoin2.mp4)
+[![Forecasting Market Psychology with SAS ESP](/images/video1.png)](
+http://sas-social.brightcovegallery.com/sharing?videoId=6290348728001
+ "Forecasting Market Psychology with SAS ESP")
+
 
 ### Objectives
 
